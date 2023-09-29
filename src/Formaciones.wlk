@@ -4,6 +4,7 @@ import Locomotoras.*
 object formacion {
 	
 	const formaciones = []
+	const locomotoras = []
 	
 	method capacidadDeOasajerosDeFormacion(tipoDeVagon) = tipoDeVagon.capacidadDePasajeros()
 	
@@ -44,6 +45,24 @@ object formacion {
 		}
 	}
 	
+	method locomotoraMasLenta() = locomotoras.min({l => l.velocidadMaxima()})	
+	method velocdiadMaxima() = self.locomotoraMasLenta().velocidadMaxima()
 	
+	method esEficiente() = locomotoras.all({l=>l.esEficiente()})
+	
+	method pesoDeVagones() = formaciones.sum({v=>v.pesoMaximo()})
+	method pesoDeLocomotoras() = formaciones.sum({v=>v.peso()})
+	method puedeMoverse() = self.sumaDelArrastre() >= self.sumaDePesos()
+	method sumaDelArrastre() = locomotoras.sum({l=>l.pesoArrastable()})
+	method sumaDePesos() = self.pesoDeVagones() + self.pesoDeLocomotoras()
+	
+	
+	method kilosQueFaltan() = 0.max(self.sumaDePesos() - self.sumaDelArrastre())
 
+method vagonMasPesado() = formaciones.max({f=>f.pesoMaximo()})
+
+method esCompleja() = self.unidadesDeLaFormacion() > 8 or self.sumaDePesos() > 80000
+
+method unidadesDeLaFormacion() = formaciones.size() + locomotoras.size()
 }
+
